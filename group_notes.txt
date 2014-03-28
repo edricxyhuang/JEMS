@@ -1,2 +1,0 @@
-guys remember to work in branches then merge to master with functional updates. For now, we should just have a website branch and an algorithms branch
-    -Justin
