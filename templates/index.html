@@ -1,0 +1,49 @@
+<html>
+
+<head>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+<meta charset="utf-8">
+<title></title>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhw3p96vbtLNmMlHTxDWu4vP5wuFSPLtE&v=3.exp&sensor=false"></script>
+
+
+<script src="../js/directions.js"></script>
+<link rel="stylesheet" type="text/css" href="../css/directions.css">
+
+</head>
+
+<body onload="initialize('345 Chambers Street, New York, NY', '270 Greenwich St, New York, NY');">
+
+<!-- <input type="button" onclick="toggleMaps()" value="Toggle Maps"> -->
+
+<br>
+
+<div id="maps-wrapper">
+
+
+<div id="panel">
+  <b>Mode of Travel</b>
+  <select id="mode" onchange="calcRoute();">
+    <option value="DRIVING">Driving</option>
+    <option value="WALKING">Walking</option>
+    <option value="BICYCLING">Bicycling</option>
+    <option value="TRANSIT">Transit</option>
+  </select>
+</div>
+
+
+
+<br>
+
+<div id="directions-panel"></div>
+<div id="map-canvas"></div>
+
+</div>
+
+<script>
+    document.getElementById('mode').value = "WALKING";
+    //document.getElementById('maps-wrapper').style.display = 'none';
+</script>
+
+</body>
