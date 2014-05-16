@@ -1,22 +1,22 @@
 
-##Group Members:		Justin Duda (7)
+##Group Members:		Sabrina Khan (7)
+				Justin Duda (7)
 				Edric Huang (7)
 				Maia Ezratty (7)
-				Sabrina Khan (7)
 
-##Group Leader: Sabrina Khan
+Group Leader: Sabrina Khan
 
-##Map: Justin Duda
+Map: Justin Duda
 
-##Facebok: Sabrina Khan
+Facebok: Sabrina Khan
 
-##API: Maia Ezratty
+API: Maia Ezratty
 
-##Front End: Edric Huang
+Front End: Edric Huang
 
 ##User Overview:	
-	We've all experienced days where we want to go out, but we don't know what to do. Our website takes in parametrers such as interests (art,sports, etc.), zip code, how far you are willing to go, and budget to suggest activities happening around your area that you could be interested in. We would create accounts and use the past events you went to to suggest future ones.
-	We would log in using facebook and the first page would include a map, a search panel, and a link to see all your options. When you click on that button you can see all of your choices  
+We've all experienced days where we want to go out, but we don't know what to do. Our website takes in parametrers such as interests (art,sports, etc.), zip code, how far you are willing to go, and budget to suggest activities happening in your area that you might be interested in. You can create an account and we will use your past events to suggest future ones.
+You can log in with your facebook account and the home page includes a map, a search panel, and a link to see all your suggested options.
 
 ##Tools to Use:
 	APIs:
@@ -24,4 +24,4 @@
 		Google Directions
 		Yelp
 		Fandango
-		Concerts/Sports???
+		Concerts/Sports?
