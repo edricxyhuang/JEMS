@@ -1,15 +1,15 @@
 
 
-var directionsDisplay = new google.maps.DirectionsRenderer();
+var directionsDisplay = new google.maps.DirectionsRenderer({ suppressMarkers: true, preserveViewport: true});
 var directionsService = new google.maps.DirectionsService();
 var geocoder = new google.maps.Geocoder();
 var map;
 
-var start;
-var end;
+//var start;
+//var end;
 
-//var start_loc = {{starting_location}}
-var start_loc = ["325 chambers street, new york, ny", "message"]
+//var start_pos = {{starting_location}}
+var start_pos = ["325 chambers street, new york, ny", "message"];
 
 //passed_venues should be a 2D array.
 //passed_venues[i][0] should be the location in string form
@@ -17,8 +17,9 @@ var start_loc = ["325 chambers street, new york, ny", "message"]
 //var venues = {{passed_venues}};
 var temp_iw = "<div class='info_windows'>" + 
               "<h4>temporary info window</h4>" + 
-              "<p>this is a placeholder for pop-up information about the venues"; + 
-              "</div>"
+              "<p>this is a placeholder for pop-up information about the venues</p>" + 
+              "<a href='#' onclick='getDirections()'>Calculate directions to here</a>" +
+              "</div>";
 var venues = [
     ["345 chambers street, new york, ny",temp_iw],
     ["300 duane street, new york, ny",temp_iw],
@@ -26,7 +27,7 @@ var venues = [
     ];
 
 var initialize = function(cntr) {
-    codeaddress_2(cntr, function(loc){
+    codeAddress(cntr, function(loc){
         //console.log("loc: " + loc);
         var mapOptions = {
             zoom: 17,
@@ -35,45 +36,21 @@ var initialize = function(cntr) {
 
         map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
         directionsDisplay.setMap(map);
+        directionsDisplay.setOptions(  );
         directionsDisplay.setPanel(document.getElementById("directions-panel"));
-        add_marker(loc, start_loc[1], 'green');
+        add_marker(loc, start_pos[1], 'green');
 
         }
     );
 }
 
-var codeAddress = function(saddress,eaddress) {
-    geocoder.geocode({ 'address': saddress}, function(results, status) {
-        if (status == google.maps.geocoderstatus.ok) {
-        	start = results[0].geometry.location;
-        	map.setcenter(results[0].geometry.location);
-        }
-        else {
-        	alert("geocode was unsuccessful because: " + status);
-            return null;
-        }
-    }     
-                    );
-    geocoder.geocode( { 'address': eaddress}, function(results, status) {
-        if (status == google.maps.geocoderstatus.ok) {
-            if (results[0]){ 
-                end = results[0].geometry.location;
-                calcRoute();
-            }
-        }
-        else {
-            alert("geocode was not successful because: " + status);
-        }
-    }
-                    );      
-} 
 
-var codeaddress_2 = function(address, cb_func) {
+var codeAddress = function(address, callback) {
     geocoder.geocode(
         { 'address': address}, function(results, status) {
             if (status == google.maps.GeocoderStatus.OK) {
                 //console.log(results[0].geometry.location);
-                cb_func(results[0].geometry.location);
+                callback(results[0].geometry.location);
             }
             else {
             	alert("geocode was unsuccessful because: " + status);
@@ -83,7 +60,7 @@ var codeaddress_2 = function(address, cb_func) {
     );
 } 
     
-var calcRoute = function() {
+var calcRoute = function(start,end) {
     var selectedMode = document.getElementById("mode").value;
     
     var request = {
@@ -103,6 +80,15 @@ var calcRoute = function() {
                             );
 }
 
+var getDirections = function(){
+    var marker_id = 0;
+    while(opened_info_window != info_windows[marker_id])
+        marker_id++;
+    console.log(marker_id);
+    console.log(venues_locs[0]);
+    calcRoute(markers[0].getPosition(), markers[marker_id].getPosition());
+}
+
 
 var markers = [];
 var venues_locs = [];
@@ -112,7 +98,7 @@ var venues_locs = [];
 var place_markers = function(callback){
     var counter = venues.length;
     for(var i = 0; i < venues.length; i++){
-        codeaddress_2(venues[i][0], 
+        codeAddress(venues[i][0], 
             function(loc){
                 venues_locs.push(loc);
                 counter--;
@@ -133,6 +119,9 @@ var drop_markers = function(){
     return markers.length;
 }
 
+var opened_info_window = null;
+var info_windows = [];
+
 var add_marker = function(pos,info,color){
     var url;
     if(color == 'red')
@@ -146,19 +135,25 @@ var add_marker = function(pos,info,color){
     else if(color == 'yellow')
         url = "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png";
 
-    newMark = new google.maps.Marker(
+    var newMark = new google.maps.Marker(
         {
             position: pos,
             map: map,
             draggable: false,
             animation: google.maps.Animation.DROP,
             icon: url
-        })
+        });
+
     var infowindow = new google.maps.InfoWindow({
         content: info
     });
-
+    
+    info_windows.push(infowindow);
+    
     google.maps.event.addListener(newMark, 'click',function(){
+        if(opened_info_window != null)
+            opened_info_window.close();
+        opened_info_window = infowindow;
         infowindow.open(map,newMark);
     });
     markers.push(newMark)
@@ -183,7 +178,7 @@ var toggleMaps = function(){
 
 google.maps.event.addDomListener(window,'load',
     function(){
-        initialize(start_loc[0]);
+        initialize(start_pos[0]);
         place_markers();
     }
 );
