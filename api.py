@@ -91,8 +91,7 @@ def query_api(term, radius):
 
     response = get_business(business_id)
 
-    print 'Result for business "{0}" found:'.format(business_id)
-    pprint.pprint(response, indent=2)
+    return [location, get_business(business_id), snippet_image_url, snippet_text]
 
 
 def main():
