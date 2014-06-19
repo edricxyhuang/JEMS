@@ -3,58 +3,29 @@
 <head>
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
 <meta charset="utf-8">
-<title></title>
+<title>JEMS</title>
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhw3p96vbtLNmMlHTxDWu4vP5wuFSPLtE&v=3.exp&sensor=false"></script>
+<!--
+    <link rel="stylesheet" href="/static/css/bootstrap.css">
+	<link rel="stylesheet" href="/static/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/static/css/bootswatch.css">
+	<link rel="stylesheet" href="/static/css/variables.css">
+	<link rel="stylesheet" href="/static/calendar/dist/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/static/calendar/dist/css/bootstrap-calendar.min.css">
+-->
 
-
-<script src="../static/js/directions.js"></script>
-  <link rel="stylesheet" type="text/css" href="../static/css/directions.css"> 
-
-  
 </head>
- {% include "header.html" %}
+
 <body {background-color:#b0c4de;} >
 
-<!-- <input type="button" onclick="toggleMaps()" value="Toggle Maps"> -->
-<form>
-Location: &nbsp;<input type="text">
+<form method="POST">
+Location: &nbsp;<input type="text" name="location">
+Type of Venue or Service: &nbsp;<input type="text" name="term">
+Search Radius (in meters): &nbsp;<input type="text" name="radius">
 <br>
 <p>ex: "345 Chambers Street, New York, NY"</p>
- <input type="button"
+ <input type="submit" value="Find Venues!"> 
 </form>
 
-<br>
-
-<div id = "search-panel" class = "container">
-    
-</div>
-    
-<div id="maps-wrapper">
-
-
-<div id="directions-panel">
-  <b>Mode of Travel</b>
-  <select id="mode" onchange="calcRoute();">
-    <option value="DRIVING">Driving</option>
-    <option value="WALKING">Walking</option>
-    <option value="BICYCLING">Bicycling</option>
-    <option value="TRANSIT">Transit</option>
-  </select>
-</div>
-
-
-
-<br>
-
-<!--<div id="directions-panel"></div>-->
-<div id="map-canvas"></div>
-
-</div>
-
-<script>
-    document.getElementById('mode').value = "WALKING";
-    //document.getElementById('maps-wrapper').style.display = 'none';
-</script>
 
 </body>

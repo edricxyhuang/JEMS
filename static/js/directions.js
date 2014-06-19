@@ -7,19 +7,22 @@ var map;
 
 //var start;
 //var end;
+var venues = [];
+var iw_contents = [];
+var start_pos = null;
+
+var init_events = function(start_loc, p_venues) {
 
 //var start_pos = {{starting_location}}
-//var start_pos = [{{start_loc}}, "This is your location!"];
-var start_pos = [ "320 chambers street, new york, ny" , "This is your location!"];
+start_pos = [start_loc, "This is your location!"];
+//var start_pos = [ "320 chambers street, new york, ny" , "This is your location!"];
 
 //passed_venues should be a 2D array.
 //passed_venues[i][0] should be the location in string form
 //passed_venues[i][1] should be information about the location as a string of appropriate html tags
 
-/*
-var p_venues = {{passed_venues}};
-var iw_contents = [];
-var venues = [];
+
+//var p_venues = {{passed_venues}};
 
 for(var i = 0; i < p_venues.length; i++){
     iw = "<div class='info_windows'>" + 
@@ -29,38 +32,56 @@ for(var i = 0; i < p_venues.length; i++){
          "<p class='snippetxt'>" + p_venues[i][3] + "</p>" + 
          "<a onclick='getDirections()'>Calculate directions to here</a>" +
          "</div>";
-    venues.push( [p_venues[0], iw] )
+    venues.push( [p_venues[i][0], iw] )
 }
-*/
 
-var temp_iw = "<div class='info_windows'>" + 
-              "<h4>temporary info window</h4>" + 
-              "<p>this is a placeholder for pop-up information about the venues</p>" + 
-              "<a onclick='getDirections()'>Calculate directions to here</a>" +
-              "</div>";
 
-var venues = [
-    ["345 chambers street, new york, ny",temp_iw],
-    ["300 duane street, new york, ny",temp_iw],
-    ["250 warren street, new york, ny",temp_iw]
-    ];
+//var temp_iw = "<div class='info_windows'>" + 
+//              "<h4>temporary info window</h4>" + 
+//              "<p>this is a placeholder for pop-up information about the venues</p>" + 
+//              "<a onclick='getDirections()'>Calculate directions to here</a>" +
+//              "</div>";
+//
+//var venues = [
+//    ["345 chambers street, new york, ny",temp_iw],
+//    ["300 duane street, new york, ny",temp_iw],
+//    ["250 warren street, new york, ny",temp_iw]
+//    ];
 
-var initialize = function(cntr) {
-    codeAddress(cntr, function(loc){
-        //console.log("loc: " + loc);
-        var mapOptions = {
-            zoom: 17,
-            center: loc
-        } 
 
+}
+
+var initialize = function(cntr){
+//    if(cntr){
+        codeAddress(cntr, function(loc){
+            //console.log("loc: " + loc);
+            var mapOptions = {
+                zoom: 17,
+                center: loc
+            } 
+
+            map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+            directionsDisplay.setMap(map);
+            directionsDisplay.setPanel(document.getElementById("directions-panel"));
+        
+            events_init();
+
+            add_marker(loc, start_pos[1], 'green');
+            place_markers();
+            }
+        );
+/*
+    } else {
+        
+            var mapOptions = {
+                zoom: 17,
+                center: new google.maps.LatLng(40.7183, 74.0142)
+            } 
         map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
         directionsDisplay.setMap(map);
-        directionsDisplay.setOptions(  );
         directionsDisplay.setPanel(document.getElementById("directions-panel"));
-        add_marker(loc, start_pos[1], 'green');
-
-        }
-    );
+    }
+*/
 }
 
 
@@ -114,7 +135,7 @@ var venues_locs = [];
 
 
 
-var place_markers = function(callback){
+var place_markers = function(){
     var counter = venues.length;
     for(var i = 0; i < venues.length; i++){
         codeAddress(venues[i][0], 
@@ -197,9 +218,10 @@ var toggleMaps = function(){
 
 google.maps.event.addDomListener(window,'load',
     function(){
-        initialize(start_pos[0]);
-        place_markers();
+        console.log("1 2 3 ");
+        console.log(p_v);
+        init_events(s_loc, p_v);
+        initialize(s_loc);
+        drop_markers();
     }
 );
-
-

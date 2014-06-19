@@ -5,7 +5,7 @@ import sys
 import urllib
 import urllib2
 
-##import oauth2
+import oauth2
 
 import hashlib #Source file: http://hg.python.org/cpython/file/2.7/Lib/hashlib.py
 import time
@@ -17,7 +17,7 @@ import urllib
 API_HOST = 'api.yelp.com'
 DEFAULT_LOCATION = 'New York, NY'
 DEFAULT_TERM = 'dinner'
-SEARCH_LIMIT = 3
+SEARCH_LIMIT = 20
 SEARCH_PATH = '/v2/search/'
 BUSINESS_PATH = '/v2/business/'
 
@@ -28,7 +28,7 @@ TOKEN_SECRET = "4LR0kfSq71tClYf1O8LpjRZJYec"
 
 
 def request(host, path, url_params=None):
-    url_params = url_params or {}
+    #url_params = url_params or {}
     encoded_params = urllib.urlencode(url_params)
 
     url = 'http://{0}{1}?{2}'.format(host, path, encoded_params)
@@ -57,11 +57,12 @@ def request(host, path, url_params=None):
 
     return response
 
-def search(term, radius):
+def search(term, location, radius):
     url_params = {
         'term': term,
-        'radius': radius_filter,
-        'limit': SEARCH_LIMIT
+        'radius': radius,
+        'limit': SEARCH_LIMIT,
+        'location': location
     }
 
     return request(API_HOST, SEARCH_PATH, url_params=url_params)
@@ -72,46 +73,66 @@ def get_business(business_id):
 
     return request(API_HOST, business_path)
 
-def query_api(term, radius):
+def query_api(term, location, radius):
     
-    response = search(term, radius)
+    response = search(term, location, radius)
     businesses = response.get('businesses')
 
     if not businesses:
         print 'No businesses for {0} in {1} found.'.format(term, location)
         return
 
-    business_id = businesses[0]['id']
+    #business_id = businesses[0]['id']
 
-    print '{0} businesses found, querying business info for the top result "{1}" ...'.format(
+    print '{0} businesses found'.format(
         len(businesses),
-        business_id
     )
-
-    response = get_business(business_id)
-
-    location = get_business(location)
-    image = get_business(snippet_image_url)
-    text = get_business(snippet_text)
     
     venues = []
-    for i in range(businesses.length):
-        venues += [[0] * 4]
-        venues.append([location, get_business(business_id), image, text])
-    
+    for i in range(len(businesses)): 
+        print businesses[i]['location']['address']
+        addrs = businesses[i]['location']['address']
+        if addrs:
+            addr = addrs[0]
+            city = businesses[i]['location']['city']
+            state = businesses[i]['location']['state_code']
+            loc = addr + ', ' + city + ', ' + state
+
+            name = businesses[i]['name']
+            img_url = businesses[i]['snippet_image_url']
+            snip_txt = businesses[i]['snippet_text']
+            venues.append( [loc,name,img_url,snip_txt] )
+
+    print venues
     return venues
+
+    #response = get_business(business_id)
+
+    #location = get_business(location)
+    #image = get_business(snippet_image_url)
+    #text = get_business(snippet_text)
+    #
+    #venues = []
+    #for i in range(businesses.length):
+    #    venues += [[0] * 4]
+    #    venues.append([location, get_business(business_id), image, text])
+    
+    #return venues
 
 
 def main():
-    parser = argparse.ArgumentParser()
+    #parser = argparse.ArgumentParser()
 
-    parser.add_argument('-q', '--term', dest='term', default=DEFAULT_TERM, type=str, help='Search term (default: %(default)s)')
-    parser.add_argument('-l', '--location', dest='location', default=DEFAULT_LOCATION, type=str, help='Search location (default: %(default)s)')
+    #parser.add_argument('-q', '--term', dest='term', default=DEFAULT_TERM, type=str, help='Search term (default: %(default)s)')
+    #parser.add_argument('-l', '--location', dest='location', default=DEFAULT_LOCATION, type=str, help='Search location (default: %(default)s)')
 
-    input_values = parser.parse_args()
-
+    #input_values = parser.parse_args()
+    term = "ice cream"
+    location = "300 Chambers Street, new york, ny"
+    radius = 100
+        
     try:
-        query_api(input_values.term, input_values.location)
+        query_api(term, location, radius)
     except urllib2.HTTPError as error:
         sys.exit('Encountered HTTP error {0}. Abort program.'.format(error.code))
 
@@ -163,24 +184,24 @@ class FandangoApiManager(object):
         return result
 
 
-def main():
-    
-    api = FandangoApiManager()
-    
-    zipCode = "90064";
-    parameters = "op=theatersbypostalcodesearch&postalcode={0}".format(zipCode)
-
-    responseFromServer = api.GetResponse(parameters)
-
-    print responseFromServer
-
-""" END OF FANDANGO API """
-
-""" NYT API """
-
-## we also requested a NYT api key and never got one
-
-""" END OF NYT API """
+#def main():
+#    
+#    api = FandangoApiManager()
+#    
+#    zipCode = "90064";
+#    parameters = "op=theatersbypostalcodesearch&postalcode={0}".format(zipCode)
+#
+#    responseFromServer = api.GetResponse(parameters)
+#
+#    print responseFromServer
+#
+#""" END OF FANDANGO API """
+#
+#""" NYT API """
+#
+### we also requested a NYT api key and never got one
+#
+#""" END OF NYT API """
 
 if __name__ == '__main__':
     main()
