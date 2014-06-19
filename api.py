@@ -23,8 +23,8 @@ BUSINESS_PATH = '/v2/business/'
 
 CONSUMER_KEY = "W4FAfHIVPA3cZb8z0QtI7w"
 CONSUMER_SECRET = "ga1UHeL0EcpvM2MzFlTd-kkLnYc"
-TOKEN = "n4dG1spU53Fe_UQ3c8IejRds4IQMr6ds"
-TOKEN_SECRET = "AW6s7OBGFUS9Z5HF-hjPcF1nFN0"
+TOKEN = "-AhjaXo27zFeU6kLowTw8MO9GtG3-SaB"
+TOKEN_SECRET = "4LR0kfSq71tClYf1O8LpjRZJYec"
 
 
 def request(host, path, url_params=None):
