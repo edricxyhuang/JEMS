@@ -19,21 +19,31 @@
 <script src="../static/js/directions.js"></script>
   
 <script type="text/javacript"> 
-console.log("testing");
-var s_loc = {{start_loc}};
-var p_v = {{passed_venues|safe}};
+//console.log("testing");
+//var s_loc = {{start_loc}};
+//var p_v = {{passed_venues|safe}};
 //console.log(p_v);
 //init_events(s_loc, p_v);
 //initialize(s_loc);
 //drop_markers();
-
+/*
+google.maps.event.addDomListener(window,'load',
+    function(){
+        console.log("1 2 3 ");
+        console.log(p_v);
+        init_events(s_loc, p_v);
+        initialize(s_loc);
+        drop_markers();
+    }
+);
+*/
 </script>
 
 <link rel="stylesheet" type="text/css" href="../static/css/directions.css"> 
 
 
 </head>
-<body {background-color:#b0c4de;} >
+<body>
 
 <!-- <input type="button" onclick="toggleMaps()" value="Toggle Maps"> -->
 
@@ -79,6 +89,16 @@ Search Radius (in meters): &nbsp;<input type="text" name="radius">
 <script>
     document.getElementById('mode').value = "WALKING";
     //document.getElementById('maps-wrapper').style.display = 'none';
+google.maps.event.addDomListener(window,'load',
+    function(){
+        var s_loc = '{{start_loc|safe}}';
+        var p_v = {{passed_venues|safe}};
+        console.log(s_loc);
+        console.log(p_v);
+        initialize(s_loc,p_v);
+        //drop_markers();
+    }
+);
 </script>
 
 </body>

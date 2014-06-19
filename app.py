@@ -14,7 +14,7 @@ def Home():
     if request.method == "GET":
         return render_template("index.html")
     if request.method == "POST":    
-        term = request.form['term']
+        term = str(request.form['term'])
         radius = request.form['radius']
         location = request.form['location']
         venues = query_api(term, location, radius)

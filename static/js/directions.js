@@ -9,12 +9,10 @@ var map;
 //var end;
 var venues = [];
 var iw_contents = [];
-var start_pos = null;
 
 var init_events = function(start_loc, p_venues) {
 
 //var start_pos = {{starting_location}}
-start_pos = [start_loc, "This is your location!"];
 //var start_pos = [ "320 chambers street, new york, ny" , "This is your location!"];
 
 //passed_venues should be a 2D array.
@@ -28,9 +26,9 @@ for(var i = 0; i < p_venues.length; i++){
     iw = "<div class='info_windows'>" + 
          "<h4>" + p_venues[i][1] + "</h4>" + 
          "<img alt='no available image' src='" + p_venues[i][2] + 
-            "' height='12px' width='12px'>" + 
+            "' height='50px' width='50px'>" + 
          "<p class='snippetxt'>" + p_venues[i][3] + "</p>" + 
-         "<a onclick='getDirections()'>Calculate directions to here</a>" +
+         "<a href='#' onclick='getDirections()'>Calculate directions to here</a>" +
          "</div>";
     venues.push( [p_venues[i][0], iw] )
 }
@@ -51,22 +49,22 @@ for(var i = 0; i < p_venues.length; i++){
 
 }
 
-var initialize = function(cntr){
+var initialize = function(cntr,p_v){
 //    if(cntr){
         codeAddress(cntr, function(loc){
             //console.log("loc: " + loc);
             var mapOptions = {
-                zoom: 17,
+                zoom: 16,
                 center: loc
             } 
 
             map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
             directionsDisplay.setMap(map);
             directionsDisplay.setPanel(document.getElementById("directions-panel"));
-        
-            events_init();
+       
 
-            add_marker(loc, start_pos[1], 'green');
+            add_marker(loc, "This is your location!", 'green');
+            init_events(cntr,p_v);
             place_markers();
             }
         );
@@ -109,12 +107,14 @@ var calcRoute = function(start,end) {
         travelMode: google.maps.TravelMode[selectedMode]
     };
 
+    console.log(request)
+
     directionsService.route(request, function(response, status) {
         if (status == google.maps.DirectionsStatus.OK) {
             directionsDisplay.setDirections(response);
         }
         else{
-        	alert("error displaying directions");
+        	alert("error displaying directions: " + status);
     	}
     }
                             );
@@ -124,8 +124,6 @@ var getDirections = function(){
     var marker_id = 0;
     while(opened_info_window != info_windows[marker_id])
         marker_id++;
-    console.log(marker_id);
-    console.log(venues_locs[0]);
     calcRoute(markers[0].getPosition(), markers[marker_id].getPosition());
 }
 
@@ -137,6 +135,7 @@ var venues_locs = [];
 
 var place_markers = function(){
     var counter = venues.length;
+    console.log(venues);
     for(var i = 0; i < venues.length; i++){
         codeAddress(venues[i][0], 
             function(loc){
@@ -153,7 +152,7 @@ var place_markers = function(){
 var drop_markers = function(){
     for (var i = 0; i < venues_locs.length; i++){
         //setTimeout(function() {
-            add_marker(venues_locs[i], temp_iw, 'red');
+            add_marker(venues_locs[i], venues[i][1], 'red');
         //}, i * 200);
     }
     return markers.length;
@@ -185,7 +184,8 @@ var add_marker = function(pos,info,color){
         });
 
     var infowindow = new google.maps.InfoWindow({
-        content: info
+        content: info,
+        maxWidth: 250
     });
     
     info_windows.push(infowindow);
@@ -216,6 +216,9 @@ var toggleMaps = function(){
         maps.style.display = 'none';
 }
 
+
+
+/*
 google.maps.event.addDomListener(window,'load',
     function(){
         console.log("1 2 3 ");
@@ -225,3 +228,5 @@ google.maps.event.addDomListener(window,'load',
         drop_markers();
     }
 );
+
+*/

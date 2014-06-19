@@ -17,7 +17,7 @@ import urllib
 API_HOST = 'api.yelp.com'
 DEFAULT_LOCATION = 'New York, NY'
 DEFAULT_TERM = 'dinner'
-SEARCH_LIMIT = 20
+SEARCH_LIMIT = 9
 SEARCH_PATH = '/v2/search/'
 BUSINESS_PATH = '/v2/business/'
 
@@ -90,7 +90,6 @@ def query_api(term, location, radius):
     
     venues = []
     for i in range(len(businesses)): 
-        print businesses[i]['location']['address']
         addrs = businesses[i]['location']['address']
         if addrs:
             addr = addrs[0]
@@ -99,11 +98,10 @@ def query_api(term, location, radius):
             loc = addr + ', ' + city + ', ' + state
 
             name = businesses[i]['name']
-            img_url = businesses[i]['snippet_image_url']
+            img_url = businesses[i]['image_url']
             snip_txt = businesses[i]['snippet_text']
             venues.append( [loc,name,img_url,snip_txt] )
 
-    print venues
     return venues
 
     #response = get_business(business_id)
