@@ -1,5 +1,5 @@
 html, body {
-      height: 10%;
+      height: 100%;
       margin: 0px;
       padding: 0px
       }
@@ -27,7 +27,7 @@ html, body {
 }
 
 #directions-panel {
-    height: 600px;
+    height: 800px;
 	float: right;
     margin-right: 50px;
     width: 250px;
@@ -35,12 +35,14 @@ html, body {
 }
 
 #map-canvas {
-      height: 575px;
-	  width: 550px;
-      margin-left: 300px;
-      padding: 0px
-      margin-right: 400px;
+    height: 600px;
+	width: 750px;
+    margin-left: 100px;
+    padding: 0px
+    margin-right: 400px;
+    float: left;
 }
+
 
 
 #maps-wrapper {
