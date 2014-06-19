@@ -9,17 +9,36 @@ var map;
 //var end;
 
 //var start_pos = {{starting_location}}
-var start_pos = ["325 chambers street, new york, ny", "message"];
+//var start_pos = [{{start_loc}}, "This is your location!"];
+var start_pos = [ "320 chambers street, new york, ny" , "This is your location!"];
 
 //passed_venues should be a 2D array.
 //passed_venues[i][0] should be the location in string form
 //passed_venues[i][1] should be information about the location as a string of appropriate html tags
-//var venues = {{passed_venues}};
+
+/*
+var p_venues = {{passed_venues}};
+var iw_contents = [];
+var venues = [];
+
+for(var i = 0; i < p_venues.length; i++){
+    iw = "<div class='info_windows'>" + 
+         "<h4>" + p_venues[i][1] + "</h4>" + 
+         "<img alt='no available image' src='" + p_venues[i][2] + 
+            "' height='12px' width='12px'>" + 
+         "<p class='snippetxt'>" + p_venues[i][3] + "</p>" + 
+         "<a onclick='getDirections()'>Calculate directions to here</a>" +
+         "</div>";
+    venues.push( [p_venues[0], iw] )
+}
+*/
+
 var temp_iw = "<div class='info_windows'>" + 
               "<h4>temporary info window</h4>" + 
               "<p>this is a placeholder for pop-up information about the venues</p>" + 
-              "<a href='#' onclick='getDirections()'>Calculate directions to here</a>" +
+              "<a onclick='getDirections()'>Calculate directions to here</a>" +
               "</div>";
+
 var venues = [
     ["345 chambers street, new york, ny",temp_iw],
     ["300 duane street, new york, ny",temp_iw],
