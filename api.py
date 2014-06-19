@@ -91,7 +91,11 @@ def query_api(term, radius):
 
     response = get_business(business_id)
 
-    return [location, get_business(business_id), snippet_image_url, snippet_text]
+    venues = [][]
+    for i in range(businesses.length):
+            venues.append([location_as_string, name_of_venue, snippet_image_url, snippet_text])
+    
+    return venues
 
 
 def main():
