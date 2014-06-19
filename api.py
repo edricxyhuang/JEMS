@@ -1,11 +1,11 @@
-import argparse
+##import argparse
 import json
 import pprint
 import sys
 import urllib
 import urllib2
 
-import oauth2
+##import oauth2
 
 import hashlib #Source file: http://hg.python.org/cpython/file/2.7/Lib/hashlib.py
 import time
@@ -21,11 +21,10 @@ SEARCH_LIMIT = 3
 SEARCH_PATH = '/v2/search/'
 BUSINESS_PATH = '/v2/business/'
 
-##from one of Justin's old projects:
-CONSUMER_KEY = 4EIHwPZt8DYZHqTXwm1A-Q
-CONSUMER_SECRET = juXt69VHeOHgAKmpWt_OI5_6RDY
-TOKEN = r5k7SUhaEg_TIcsrhv4V4BLLW2e5z8gC
-TOKEN_SECRET = c3_YJgWWdCL6kNMD9ux7cFiJu9U
+CONSUMER_KEY = "W4FAfHIVPA3cZb8z0QtI7w"
+CONSUMER_SECRET = "ga1UHeL0EcpvM2MzFlTd-kkLnYc"
+TOKEN = "n4dG1spU53Fe_UQ3c8IejRds4IQMr6ds"
+TOKEN_SECRET = "AW6s7OBGFUS9Z5HF-hjPcF1nFN0"
 
 
 def request(host, path, url_params=None):
@@ -91,9 +90,14 @@ def query_api(term, radius):
 
     response = get_business(business_id)
 
-    venues = [][]
+    location = get_business(location)
+    image = get_business(snippet_image_url)
+    text = get_business(snippet_text)
+    
+    venues = []
     for i in range(businesses.length):
-            venues.append([location_as_string, name_of_venue, snippet_image_url, snippet_text])
+        venues += [[0] * 4]
+        venues.append([location, get_business(business_id), image, text])
     
     return venues
 
